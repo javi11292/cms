@@ -1,3 +1,5 @@
+# SETUP
+
 1. Create the database "cms" in Cloudflare D1
 
 2. Update wrangler.toml
