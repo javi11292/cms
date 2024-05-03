@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { invalidate } from "$app/navigation";
-	import { columns, fields } from "$lib/cms.config";
+	import * as fields from "$lib/cms.config";
 	import Button from "$lib/core/components/button.svelte";
 	import Delete from "$lib/core/components/icon/delete.svg";
 	import Modal from "$lib/core/components/modal.svelte";
@@ -9,9 +9,21 @@
 	import AddEntry from "./add-entry.svelte";
 	import type { Entry } from "./types";
 
-	let { entries, api }: { entries: Entry[]; api: string } = $props();
+	type Props = { entries: Entry[]; api: string; table: keyof typeof fields };
+
+	let { entries, api, table }: Props = $props();
+
 	let open = $state(false);
 	let editing = $state<number | null>(null);
+	let tableFields = $derived(fields[table]);
+	let columns = $derived(
+		Object.entries(tableFields).reduce<string[]>((acc, [key, field]) => {
+			if (field.visible) {
+				acc.push(key);
+			}
+			return acc;
+		}, []),
+	);
 
 	const handleDelete = (id: unknown) => async (event: Event) => {
 		event.stopPropagation();
@@ -41,7 +53,7 @@
 					<tr>
 						<td></td>
 						{#each columns as column}
-							<th>{fields[column].label}</th>
+							<th>{tableFields[column].label}</th>
 						{/each}
 					</tr>
 				</thead>
@@ -64,7 +76,12 @@
 </main>
 
 <Modal bind:open>
-	<AddEntry {api} entry={editing !== null ? { ...entries[editing] } : null} onclick={handleClick} />
+	<AddEntry
+		{api}
+		{table}
+		entry={editing !== null ? { ...entries[editing] } : null}
+		onclick={handleClick}
+	/>
 </Modal>
 
 <style lang="scss">

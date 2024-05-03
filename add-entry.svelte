@@ -1,12 +1,19 @@
 <script lang="ts">
-	import { fields } from "$lib/cms.config";
+	import * as fields from "$lib/cms.config";
 	import Button from "$lib/core/components/button.svelte";
 	import Input from "$lib/core/components/input.svelte";
 	import { post } from "$lib/core/utils/fetch";
 	import type { ComponentType } from "svelte";
 	import type { Entry } from "./types";
 
-	let { api, onclick, entry }: { api: string; onclick: () => void; entry: Entry | null } = $props();
+	type Props = {
+		api: string;
+		onclick: () => void;
+		entry: Entry | null;
+		table: keyof typeof fields;
+	};
+
+	let { api, onclick, entry, table }: Props = $props();
 
 	let values = $state<Entry>(entry || {});
 	let loading = $state(false);
@@ -17,7 +24,7 @@
 		onclick();
 	};
 
-	const fieldsEntries = Object.entries(fields);
+	const fieldsEntries = Object.entries(fields[table]);
 
 	let disabled = $derived(
 		fieldsEntries.some(([name, { required }]) => {
