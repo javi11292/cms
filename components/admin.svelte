@@ -1,13 +1,11 @@
 <script lang="ts">
 	import { invalidate } from "$app/navigation";
 	import * as fields from "$lib/cms.config";
-	import Button from "$lib/core/components/button.svelte";
-	import Delete from "$lib/core/components/icon/delete.svg";
-	import Modal from "$lib/core/components/modal.svelte";
-	import { post } from "$lib/core/utils/fetch";
+	import { Button, Modal, icons } from "$lib/core/components";
+	import { post } from "$lib/core/utils";
 	import { flip } from "svelte/animate";
+	import type { Entry } from "../utils/types";
 	import AddEntry from "./add-entry.svelte";
-	import type { Entry } from "./types";
 
 	type Props = { entries: Entry[]; api: string; table: keyof typeof fields };
 
@@ -61,7 +59,7 @@
 				<tbody>
 					{#each entries as entry, index (entry.id)}
 						<tr animate:flip={{ duration: 200 }} onclick={handleOpen(index)}>
-							<td><Button icon={Delete} text onclick={handleDelete(entry.id)} /></td>
+							<td><Button icon={icons.delete} text onclick={handleDelete(entry.id)} /></td>
 							{#each columns as column}
 								<td>{entry[column]}</td>
 							{/each}

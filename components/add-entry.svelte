@@ -1,10 +1,9 @@
 <script lang="ts">
 	import * as fields from "$lib/cms.config";
-	import Button from "$lib/core/components/button.svelte";
-	import Input from "$lib/core/components/input.svelte";
-	import { post } from "$lib/core/utils/fetch";
+	import { Button, Input } from "$lib/core/components";
+	import { post } from "$lib/core/utils";
 	import type { ComponentType } from "svelte";
-	import type { Entry } from "./types";
+	import type { Entry } from "../utils/types";
 
 	type Props = {
 		api: string;

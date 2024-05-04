@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 
 import * as fields from "$lib/cms.config";
-import { prisma } from "$lib/core/utils/prisma";
+import { prisma } from "$lib/core/utils";
 import type { RequestHandler, ServerLoad } from "@sveltejs/kit";
 import { json } from "@sveltejs/kit";
 
