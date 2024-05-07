@@ -7,9 +7,9 @@
 	import type { Entry } from "../utils/types";
 	import AddEntry from "./add-entry.svelte";
 
-	type Props = { entries: Entry[]; api: string; table: keyof typeof fields };
+	type Props = { entries: Entry[]; api: string; table: keyof typeof fields; title?: string };
 
-	let { entries, api, table }: Props = $props();
+	let { entries, api, table, title }: Props = $props();
 
 	let open = $state(false);
 	let editing = $state<number | null>(null);
@@ -42,19 +42,26 @@
 	};
 </script>
 
-<main>
+<section>
 	<div class="container">
-		<Button onclick={handleOpen(null)}>Añadir</Button>
+		<div>
+			{#if title}
+				<h1>{title}</h1>
+			{/if}
+			<Button onclick={handleOpen(null)}>Añadir</Button>
+		</div>
 		{#if entries.length > 0}
 			<table>
-				<thead>
-					<tr>
-						<td></td>
-						{#each columns as column}
-							<th>{tableFields[column].label}</th>
-						{/each}
-					</tr>
-				</thead>
+				{#if columns.length > 1}
+					<thead>
+						<tr>
+							<td></td>
+							{#each columns as column}
+								<th>{tableFields[column].label}</th>
+							{/each}
+						</tr>
+					</thead>
+				{/if}
 
 				<tbody>
 					{#each entries as entry, index (entry.id)}
@@ -68,10 +75,10 @@
 				</tbody>
 			</table>
 		{:else}
-			<h1>No hay elementos</h1>
+			No hay elementos
 		{/if}
 	</div>
-</main>
+</section>
 
 <Modal bind:open>
 	<AddEntry
@@ -85,29 +92,18 @@
 <style lang="scss">
 	@use "$lib/core/styles/hover";
 
-	main {
+	section {
 		padding: 2rem;
 	}
 
 	.container {
-		display: inline-flex;
+		display: flex;
 		flex-direction: column;
 		gap: 1rem;
-
-		:global(> .button) {
-			align-self: start;
-		}
-	}
-
-	table {
-		border-collapse: collapse;
-		text-align: center;
-		color: black;
 	}
 
 	tr {
 		@extend %background;
-		box-shadow: 0 -1px lightgrey inset;
 
 		&:has(button:active) {
 			&::before {
@@ -125,10 +121,15 @@
 	th {
 		text-transform: uppercase;
 		font-size: 0.75rem;
-		padding: 1rem 3rem;
+		padding: 1rem;
+		text-align: start;
 	}
 
 	td {
 		padding: 1rem;
+	}
+
+	td:first-child {
+		width: 0;
 	}
 </style>
