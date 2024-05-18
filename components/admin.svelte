@@ -28,7 +28,7 @@
 		event.preventDefault();
 
 		await post(api, { id }, { method: "DELETE" });
-		invalidate(api);
+		invalidate(`cms:${api}`);
 	};
 
 	const handleOpen = (id: number | null) => () => {
@@ -38,7 +38,7 @@
 
 	const handleClick = () => {
 		open = false;
-		invalidate(api);
+		invalidate(`cms:${api}`);
 	};
 </script>
 

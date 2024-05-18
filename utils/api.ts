@@ -36,7 +36,7 @@ export const setupDELETE =
 export const setupLoad =
 	(api: string) =>
 	async ({ fetch, depends }: Parameters<ServerLoad>["0"]) => {
-		depends(api);
+    depends(`cms:${api}`);
 
 		return { entries: await fetch(api).then((response) => response.json()), api };
 	};
