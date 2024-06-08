@@ -41,7 +41,7 @@
 	{/each}
 
 	<div class="buttons">
-		<Button {onclick}>Cancelar</Button>
+		<Button {onclick} text>Cancelar</Button>
 		<Button {loading} {disabled} type="submit">Enviar</Button>
 	</div>
 </form>
