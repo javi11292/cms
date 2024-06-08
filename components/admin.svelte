@@ -93,13 +93,17 @@
 	@use "$lib/core/styles";
 
 	section {
-		padding: 2rem;
+		padding: 3.2rem;
+	}
+
+	h1 {
+		margin-bottom: 1.5rem;
 	}
 
 	.container {
 		display: flex;
 		flex-direction: column;
-		gap: 1rem;
+		gap: 1.6rem;
 	}
 
 	tr {
@@ -120,13 +124,13 @@
 
 	th {
 		text-transform: uppercase;
-		font-size: 0.75rem;
-		padding: 1rem;
+		font-size: 1.2rem;
+		padding: 1.6rem;
 		text-align: start;
 	}
 
 	td {
-		padding: 1rem;
+		padding: 1.6rem;
 	}
 
 	td:first-child {

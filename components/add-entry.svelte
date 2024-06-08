@@ -47,10 +47,10 @@
 
 <style lang="scss">
 	.container {
-		padding: 1.5rem;
+		padding: 2rem;
 		display: flex;
 		flex-direction: column;
-		gap: 1rem;
+		gap: 1.6rem;
 
 		:global(.button) {
 			align-self: start;
