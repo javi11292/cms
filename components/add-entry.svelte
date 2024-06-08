@@ -38,7 +38,10 @@
 		<Input bind:value={values[name]} {name} {label} {...props} />
 	{/each}
 
-	<Button {loading} {disabled}>Enviar</Button>
+	<div class="buttons">
+		<Button {onclick}>Cancelar</Button>
+		<Button {loading} {disabled}>Enviar</Button>
+	</div>
 </form>
 
 <style lang="scss">
@@ -46,10 +49,16 @@
 		padding: 2rem;
 		display: flex;
 		flex-direction: column;
-		gap: 1.6rem;
+		gap: 5rem;
 
 		:global(.button) {
 			align-self: start;
 		}
+	}
+
+	.buttons {
+		display: flex;
+		gap: 5rem;
+		justify-content: space-between;
 	}
 </style>
