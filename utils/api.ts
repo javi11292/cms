@@ -9,7 +9,7 @@ import type { Entry } from "./types";
 export const setupLoad =
 	<T = Entry>(table: keyof typeof fields) =>
 	async ({ platform }: { platform: App.Platform | undefined }) => {
-		return { entries: (await (prisma(platform)[table] as any).findMany()) as T[] };
+		return { entries: (await (prisma(platform)[table] as any).findMany()) as T[], table };
 	};
 
 export const setupGET =
