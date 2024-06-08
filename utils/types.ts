@@ -6,4 +6,4 @@ type Field = {
 };
 
 export type Fields = Record<string, Field>;
-export type Entry = Record<string, string>;
+export type Entry = { id: number } & Record<string, string>;

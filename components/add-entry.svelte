@@ -12,7 +12,7 @@
 
 	let { onclick, entry, fields }: Props = $props();
 
-	let values = $state<Entry>(entry || {});
+	let values = $state<Omit<Entry, "id"> & { id?: number }>(entry || {});
 	let loading = $state(false);
 
 	const handleSubmit: SubmitFunction = () => {
@@ -34,6 +34,8 @@
 </script>
 
 <form use:enhance={handleSubmit} method="POST" action="?/post" class="container">
+	<input hidden name="id" value={entry?.id} />
+
 	{#each fieldsEntries as [name, { label, props }]}
 		<Input bind:value={values[name]} {name} {label} {...props} />
 	{/each}

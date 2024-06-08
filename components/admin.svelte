@@ -23,11 +23,11 @@
 		}, []),
 	);
 
-	const handleDelete = (id: string) => async (event: Event) => {
+	const handleDelete = (id: number) => async (event: Event) => {
 		event.stopPropagation();
 		event.preventDefault();
 
-		await upload("?/delete", { id });
+		await upload("?/delete", { id: id.toString() });
 		invalidateAll();
 	};
 
