@@ -90,7 +90,7 @@
 </Modal>
 
 <style lang="scss">
-	@use "$lib/core/styles/hover";
+	@use "$lib/core/styles";
 
 	section {
 		padding: 2rem;
