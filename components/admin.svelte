@@ -36,8 +36,7 @@
 		editing = id;
 	};
 
-	const handleClick = (event?: Event) => {
-		event?.preventDefault();
+	const handleClick = () => {
 		open = false;
 	};
 </script>

@@ -42,7 +42,7 @@
 
 	<div class="buttons">
 		<Button {onclick}>Cancelar</Button>
-		<Button {loading} {disabled}>Enviar</Button>
+		<Button {loading} {disabled} type="submit">Enviar</Button>
 	</div>
 </form>
 
