@@ -1,29 +1,30 @@
 <script lang="ts">
-	import * as fields from "$lib/cms.config";
+	import { enhance } from "$app/forms";
 	import { Button, Input } from "$lib/core/components";
-	import { post } from "$lib/core/utils";
-	import type { ComponentType } from "svelte";
-	import type { Entry } from "../utils/types";
+	import type { SubmitFunction } from "@sveltejs/kit";
+	import type { Entry, Fields } from "../utils/types";
 
 	type Props = {
-		api: string;
 		onclick: () => void;
 		entry: Entry | null;
-		table: keyof typeof fields;
+		fields: Fields;
 	};
 
-	let { api, onclick, entry, table }: Props = $props();
+	let { onclick, entry, fields }: Props = $props();
 
 	let values = $state<Entry>(entry || {});
 	let loading = $state(false);
 
-	const handleClick = async () => {
+	const handleSubmit: SubmitFunction = () => {
 		loading = true;
-		await post(api, $state.snapshot(values));
-		onclick();
+
+		return async ({ update }) => {
+			update();
+			onclick();
+		};
 	};
 
-	const fieldsEntries = Object.entries(fields[table]);
+	const fieldsEntries = $derived(Object.entries(fields));
 
 	let disabled = $derived(
 		fieldsEntries.some(([name, { required }]) => {
@@ -32,18 +33,13 @@
 	);
 </script>
 
-<div class="container">
-	{#each fieldsEntries as [name, { component = Input, label, props }]}
-		<svelte:component
-			this={component as ComponentType}
-			bind:value={values[name]}
-			{label}
-			{...props}
-		/>
+<form use:enhance={handleSubmit} method="POST" action="?/post" class="container">
+	{#each fieldsEntries as [name, { label, props }]}
+		<Input bind:value={values[name]} {name} {label} {...props} />
 	{/each}
 
-	<Button {loading} {disabled} onclick={handleClick}>Enviar</Button>
-</div>
+	<Button {loading} {disabled}>Enviar</Button>
+</form>
 
 <style lang="scss">
 	.container {

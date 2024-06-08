@@ -2,41 +2,36 @@
 
 import * as fields from "$lib/cms.config";
 import { prisma } from "$lib/core/utils";
-import type { RequestHandler, ServerLoad } from "@sveltejs/kit";
+import type { Action, RequestHandler, ServerLoad } from "@sveltejs/kit";
 import { json } from "@sveltejs/kit";
 
-export const setupPOST =
+export const setupGET =
+	(table: keyof typeof fields): RequestHandler =>
+	async ({ platform }: Parameters<RequestHandler>["0"]) => {
+		return json(await (prisma(platform)[table] as any).findMany());
+	};
+
+export const setupLoad =
 	(table: keyof typeof fields) =>
-	async ({ platform, request }: Parameters<RequestHandler>["0"]) => {
-		const data = await request.json();
+	async ({ platform }: Parameters<ServerLoad>["0"]) => {
+		return { entries: await (prisma(platform)[table] as any).findMany() };
+	};
+
+export const setupActions = (table: keyof typeof fields) => ({
+	post: async ({ platform, request }: Parameters<Action>["0"]) => {
+		const data = Object.fromEntries(await request.formData());
 
 		if (data.id) {
 			await (prisma(platform)[table] as any).update({ data, where: { id: data.id } });
 		} else {
 			await (prisma(platform)[table] as any).create({ data });
 		}
+	},
 
-		return new Response();
-	};
+	delete: async ({ platform, request }: Parameters<Action>["0"]) => {
+		const data = await request.formData();
+		const id = data.get("id") as string;
 
-export const setupGET =
-	(table: keyof typeof fields) =>
-	async ({ platform }: Parameters<RequestHandler>["0"]) => {
-		return json(await (prisma(platform)[table] as any).findMany());
-	};
-
-export const setupDELETE =
-	(table: keyof typeof fields) =>
-	async ({ platform, request }: Parameters<RequestHandler>["0"]) => {
-		const { id } = await request.json();
-
-		return json(await (prisma(platform)[table] as any).delete({ where: { id } }));
-	};
-
-export const setupLoad =
-	(api: string) =>
-	async ({ fetch, depends }: Parameters<ServerLoad>["0"]) => {
-    depends(`cms:${api}`);
-
-		return { entries: await fetch(api).then((response) => response.json()), api };
-	};
+		await (prisma(platform)[table] as any).delete({ where: { id: parseInt(id) } });
+	},
+});

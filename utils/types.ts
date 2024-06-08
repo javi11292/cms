@@ -1,7 +1,4 @@
-import type { ComponentType } from "svelte";
-
 type Field = {
-	component?: ComponentType;
 	label: string;
 	required?: boolean;
 	visible?: boolean;
@@ -9,4 +6,4 @@ type Field = {
 };
 
 export type Fields = Record<string, Field>;
-export type Entry = Record<string, unknown>;
+export type Entry = Record<string, string>;

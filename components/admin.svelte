@@ -1,15 +1,15 @@
 <script lang="ts">
-	import { invalidate } from "$app/navigation";
+	import { invalidateAll } from "$app/navigation";
 	import * as fields from "$lib/cms.config";
 	import { Button, Modal, icons } from "$lib/core/components";
-	import { post } from "$lib/core/utils";
+	import { upload } from "$lib/core/utils";
 	import { flip } from "svelte/animate";
 	import type { Entry } from "../utils/types";
 	import AddEntry from "./add-entry.svelte";
 
-	type Props = { entries: Entry[]; api: string; table: keyof typeof fields; title?: string };
+	type Props = { entries: Entry[]; table: keyof typeof fields; title?: string };
 
-	let { entries, api, table, title }: Props = $props();
+	let { entries, table, title }: Props = $props();
 
 	let open = $state(false);
 	let editing = $state<number | null>(null);
@@ -23,12 +23,12 @@
 		}, []),
 	);
 
-	const handleDelete = (id: unknown) => async (event: Event) => {
+	const handleDelete = (id: string) => async (event: Event) => {
 		event.stopPropagation();
 		event.preventDefault();
 
-		await post(api, { id }, { method: "DELETE" });
-		invalidate(`cms:${api}`);
+		await upload("?/delete", { id });
+		invalidateAll();
 	};
 
 	const handleOpen = (id: number | null) => () => {
@@ -38,7 +38,6 @@
 
 	const handleClick = () => {
 		open = false;
-		invalidate(`cms:${api}`);
 	};
 </script>
 
@@ -82,10 +81,9 @@
 
 <Modal bind:open>
 	<AddEntry
-		{api}
-		{table}
-		entry={editing !== null ? { ...entries[editing] } : null}
 		onclick={handleClick}
+		fields={tableFields}
+		entry={editing !== null ? { ...entries[editing] } : null}
 	/>
 </Modal>
 
