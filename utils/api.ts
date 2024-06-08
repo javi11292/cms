@@ -20,12 +20,14 @@ export const setupGET =
 
 export const setupActions = (table: keyof typeof fields) => ({
 	post: async ({ platform, request }: Parameters<Action>["0"]) => {
-		const data = Object.fromEntries(await request.formData());
-
-		const id = typeof data.id === "string" && parseInt(data.id);
+		const { id, ...data } = Object.fromEntries(await request.formData());
 
 		if (id) {
-			await (prisma(platform)[table] as any).update({ data: { ...data, id }, where: { id } });
+			const numberId = parseInt(id as string);
+			await (prisma(platform)[table] as any).update({
+				data: { ...data, id: numberId },
+				where: { id: numberId },
+			});
 		} else {
 			await (prisma(platform)[table] as any).create({ data });
 		}
