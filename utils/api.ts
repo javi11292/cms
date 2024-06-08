@@ -6,16 +6,16 @@ import type { Action, RequestHandler } from "@sveltejs/kit";
 import { json } from "@sveltejs/kit";
 import type { Entry } from "./types";
 
-export const setupGET =
-	<T = Entry>(table: keyof typeof fields): RequestHandler =>
-	async ({ platform }: Parameters<RequestHandler>["0"]) => {
-		return json((await (prisma(platform)[table] as any).findMany()) as T[]);
-	};
-
 export const setupLoad =
 	<T = Entry>(table: keyof typeof fields) =>
 	async ({ platform }: { platform: App.Platform | undefined }) => {
 		return { entries: (await (prisma(platform)[table] as any).findMany()) as T[] };
+	};
+
+export const setupGET =
+	(table: keyof typeof fields) =>
+	async ({ platform }: Parameters<RequestHandler>["0"]) => {
+		return json(await (prisma(platform)[table] as any).findMany());
 	};
 
 export const setupActions = (table: keyof typeof fields) => ({
