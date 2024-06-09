@@ -2,17 +2,17 @@
 	import { enhance } from "$app/forms";
 	import { Button, Input } from "$lib/core/components";
 	import type { SubmitFunction } from "@sveltejs/kit";
-	import type { Entry, Fields } from "../utils/types";
+	import type { Fields, Item } from "../utils/types";
 
 	type Props = {
 		onclick: () => void;
-		entry: Entry | null;
+		item: Item | null;
 		fields: Fields;
 	};
 
-	let { onclick, entry, fields }: Props = $props();
+	let { onclick, item, fields }: Props = $props();
 
-	let values = $state<Omit<Entry, "id"> & { id?: number }>(entry || {});
+	let values = $state<Omit<Item, "id"> & { id?: number }>({ ...item });
 	let loading = $state(false);
 
 	const handleSubmit: SubmitFunction = () => {
@@ -34,7 +34,7 @@
 </script>
 
 <form use:enhance={handleSubmit} method="POST" action="?/post" class="container">
-	<input hidden name="id" value={entry?.id} />
+	<input hidden name="id" value={item?.id} />
 
 	{#each fieldsEntries as [name, { label, props }]}
 		<Input bind:value={values[name]} {name} {label} {...props} />

@@ -1,24 +1,26 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 
-import * as fields from "$lib/cms.config";
 import { prisma } from "$lib/core/utils";
+import type { Prisma } from "@prisma/client";
 import type { Action, RequestHandler } from "@sveltejs/kit";
 import { json } from "@sveltejs/kit";
-import type { Entry } from "./types";
+import type { Item } from "./types";
+
+type Model = Uncapitalize<Prisma.ModelName>;
 
 export const setupLoad =
-	<T = Entry>(table: keyof typeof fields) =>
+	<T = Item>(table: Model) =>
 	async ({ platform }: { platform: App.Platform | undefined }) => {
-		return { entries: (await (prisma(platform)[table] as any).findMany()) as T[], table };
+		return { items: (await (prisma(platform)[table] as any).findMany()) as T[] };
 	};
 
 export const setupGET =
-	(table: keyof typeof fields) =>
+	(table: Model) =>
 	async ({ platform }: Parameters<RequestHandler>["0"]) => {
 		return json(await (prisma(platform)[table] as any).findMany());
 	};
 
-export const setupActions = (table: keyof typeof fields) => ({
+export const setupActions = (table: Model) => ({
 	post: async ({ platform, request }: Parameters<Action>["0"]) => {
 		const { id, ...data } = Object.fromEntries(await request.formData());
 

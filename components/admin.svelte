@@ -1,21 +1,19 @@
 <script lang="ts">
 	import { invalidateAll } from "$app/navigation";
-	import * as fields from "$lib/cms.config";
 	import { Button, Modal, icons } from "$lib/core/components";
 	import { upload } from "$lib/core/utils";
 	import { flip } from "svelte/animate";
-	import type { Entry } from "../utils/types";
-	import AddEntry from "./add-entry.svelte";
+	import type { Fields, Item } from "../utils/types";
+	import AddItem from "./add-item.svelte";
 
-	type Props = { entries: Entry[]; table: keyof typeof fields; title?: string };
+	type Props = { data: { items: Item[] }; fields: Fields; title?: string };
 
-	let { entries, table, title }: Props = $props();
+	let { data, title, fields }: Props = $props();
 
 	let open = $state(false);
 	let editing = $state<number | null>(null);
-	let tableFields = $derived(fields[table]);
 	let columns = $derived(
-		Object.entries(tableFields).reduce<string[]>((acc, [key, field]) => {
+		Object.entries(fields).reduce<string[]>((acc, [key, field]) => {
 			if (field.visible) {
 				acc.push(key);
 			}
@@ -49,21 +47,21 @@
 			{/if}
 			<Button onclick={handleOpen(null)}>Añadir</Button>
 		</div>
-		{#if entries.length > 0}
+		{#if data.items.length > 0}
 			<table>
 				{#if columns.length > 1}
 					<thead>
 						<tr>
 							<td></td>
 							{#each columns as column}
-								<th>{tableFields[column].label}</th>
+								<th>{fields[column].label}</th>
 							{/each}
 						</tr>
 					</thead>
 				{/if}
 
 				<tbody>
-					{#each entries as entry, index (entry.id)}
+					{#each data.items as entry, index (entry.id)}
 						<tr animate:flip={{ duration: 200 }} onclick={handleOpen(index)}>
 							<td><Button icon={icons.delete} text onclick={handleDelete(entry.id)} /></td>
 							{#each columns as column}
@@ -80,11 +78,7 @@
 </section>
 
 <Modal bind:open>
-	<AddEntry
-		onclick={handleClick}
-		fields={tableFields}
-		entry={editing !== null ? { ...entries[editing] } : null}
-	/>
+	<AddItem {fields} onclick={handleClick} item={editing !== null ? data.items[editing] : null} />
 </Modal>
 
 <style lang="scss">
