@@ -22,10 +22,13 @@ export const setupGET =
 
 export const setupActions = (table: Model) => ({
 	post: async ({ platform, request }: Parameters<Action>["0"]) => {
-		const { id, ...data } = Object.fromEntries(await request.formData());
+		const { id, ...data } = Object.fromEntries(await request.formData()) as Record<
+			string,
+			string | undefined
+		>;
 
 		if (id) {
-			const numberId = parseInt(id as string);
+			const numberId = parseInt(id);
 			await (prisma(platform)[table] as any).update({
 				data,
 				where: { id: numberId },
@@ -37,7 +40,9 @@ export const setupActions = (table: Model) => ({
 
 	delete: async ({ platform, request }: Parameters<Action>["0"]) => {
 		const data = await request.formData();
-		const id = data.get("id") as string;
+		const id = data.get("id") as string | null;
+
+		if (!id) return;
 
 		await (prisma(platform)[table] as any).delete({ where: { id: parseInt(id) } });
 	},
