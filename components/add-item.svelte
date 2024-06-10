@@ -2,7 +2,7 @@
 	import { enhance } from "$app/forms";
 	import { Button, Input } from "$lib/core/components";
 	import type { SubmitFunction } from "@sveltejs/kit";
-	import type { Fields, Item } from "../utils/types";
+	import type { Fields, Item } from "../types";
 
 	type Props = {
 		onclick: () => void;

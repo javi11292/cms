@@ -3,7 +3,7 @@
 	import { Button, Modal, icons } from "$lib/core/components";
 	import { upload } from "$lib/core/utils";
 	import { flip } from "svelte/animate";
-	import type { Fields, Item } from "../utils/types";
+	import type { Fields, Item } from "../types";
 	import AddItem from "./add-item.svelte";
 
 	type Props = { data: { items: Item[] }; fields: Fields; title?: string };
