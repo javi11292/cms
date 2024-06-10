@@ -27,7 +27,7 @@ export const setupActions = (table: Model) => ({
 		if (id) {
 			const numberId = parseInt(id as string);
 			await (prisma(platform)[table] as any).update({
-				data: { ...data, id: numberId },
+				data,
 				where: { id: numberId },
 			});
 		} else {
