@@ -6,7 +6,7 @@
 
 	type Props = {
 		onclick: () => void;
-		item: Item | null;
+		item?: Item;
 		fields: Fields;
 	};
 

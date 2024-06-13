@@ -54,7 +54,7 @@
 						<tr>
 							<td></td>
 							{#each columns as column}
-								<th>{fields[column].label}</th>
+								<th>{fields[column]!.label}</th>
 							{/each}
 						</tr>
 					</thead>
@@ -78,7 +78,11 @@
 </section>
 
 <Modal bind:open>
-	<AddItem {fields} onclick={handleClick} item={editing !== null ? data.items[editing] : null} />
+	<AddItem
+		{fields}
+		onclick={handleClick}
+		item={editing !== null ? data.items[editing] : undefined}
+	/>
 </Modal>
 
 <style lang="scss">
