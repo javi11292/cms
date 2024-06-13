@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 
-import { prisma } from "$lib/core/utils/prisma.server";
+import { prisma } from "$lib/core/utils/server";
 import type { Prisma } from "@prisma/client";
 import type { Action, RequestHandler } from "@sveltejs/kit";
 import { json } from "@sveltejs/kit";
