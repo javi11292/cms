@@ -86,8 +86,6 @@
 </Modal>
 
 <style lang="scss">
-	@use "$lib/core/styles";
-
 	section {
 		padding: 3.2rem;
 	}
