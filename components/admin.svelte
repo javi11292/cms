@@ -1,6 +1,8 @@
 <script lang="ts">
 	import { invalidateAll } from "$app/navigation";
-	import { Button, Modal, icons } from "$lib/core/components";
+	import { Button } from "$lib/components/button";
+	import { icons } from "$lib/core/components/icon";
+	import { Modal } from "$lib/core/components/modal";
 	import { upload } from "$lib/core/utils";
 	import { flip } from "svelte/animate";
 	import type { Fields, Item } from "../types";

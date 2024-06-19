@@ -1,6 +1,7 @@
 <script lang="ts">
 	import { enhance } from "$app/forms";
-	import { Button, Input } from "$lib/core/components";
+	import { Button } from "$lib/components/button";
+	import { Input } from "$lib/core/components/input";
 	import type { SubmitFunction } from "@sveltejs/kit";
 	import type { Fields, Item } from "../types";
 	import styles from "./add-item.module.scss";
