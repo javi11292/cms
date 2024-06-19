@@ -3,6 +3,7 @@
 	import { Button, Input } from "$lib/core/components";
 	import type { SubmitFunction } from "@sveltejs/kit";
 	import type { Fields, Item } from "../types";
+	import styles from "./add-item.module.scss";
 
 	type Props = {
 		onclick: () => void;
@@ -33,34 +34,15 @@
 	);
 </script>
 
-<form use:enhance={handleSubmit} method="POST" action="?/post" class="container">
+<form use:enhance={handleSubmit} method="POST" action="?/post" class={styles.container}>
 	<input hidden name="id" value={item?.id} />
 
 	{#each fieldsEntries as [name, { label, props }]}
 		<Input bind:value={values[name]} {name} {label} {...props} />
 	{/each}
 
-	<div class="buttons">
+	<div class={styles.buttons}>
 		<Button {onclick} text>Cancelar</Button>
 		<Button {loading} {disabled} type="submit">Enviar</Button>
 	</div>
 </form>
-
-<style lang="scss">
-	.container {
-		padding: 2rem;
-		display: flex;
-		flex-direction: column;
-		gap: 5rem;
-
-		:global(.button) {
-			align-self: start;
-		}
-	}
-
-	.buttons {
-		display: flex;
-		gap: 5rem;
-		justify-content: space-between;
-	}
-</style>

@@ -5,6 +5,7 @@
 	import { flip } from "svelte/animate";
 	import type { Fields, Item } from "../types";
 	import AddItem from "./add-item.svelte";
+	import styles from "./admin.module.scss";
 
 	type Props = { data: { items: Item[] }; fields: Fields; title?: string };
 
@@ -39,11 +40,11 @@
 	};
 </script>
 
-<section>
-	<div class="container">
+<section class={styles.section}>
+	<div class={styles.container}>
 		<div>
 			{#if title}
-				<h1>{title}</h1>
+				<h1 class={styles.h1}>{title}</h1>
 			{/if}
 			<Button onclick={handleOpen(null)}>Añadir</Button>
 		</div>
@@ -84,50 +85,3 @@
 		item={editing !== null ? data.items[editing] : undefined}
 	/>
 </Modal>
-
-<style lang="scss">
-	section {
-		padding: 3.2rem;
-	}
-
-	h1 {
-		margin-bottom: 1.5rem;
-	}
-
-	.container {
-		display: flex;
-		flex-direction: column;
-		gap: 1.6rem;
-	}
-
-	tr {
-		@extend %background;
-
-		&:has(button:active) {
-			&::before {
-				background: none;
-			}
-		}
-
-		&:has(button:hover) {
-			&::before {
-				background: none;
-			}
-		}
-	}
-
-	th {
-		text-transform: uppercase;
-		font-size: 1.2rem;
-		padding: 1.6rem;
-		text-align: start;
-	}
-
-	td {
-		padding: 1.6rem;
-	}
-
-	td:first-child {
-		width: 0;
-	}
-</style>
