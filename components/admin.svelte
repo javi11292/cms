@@ -1,13 +1,12 @@
 <script lang="ts">
 	import { invalidateAll } from "$app/navigation";
-	import { Button } from "$lib/components/button";
+	import { Button } from "$lib/core/components/button";
 	import { icons } from "$lib/core/components/icon";
 	import { Modal } from "$lib/core/components/modal";
 	import { upload } from "$lib/core/utils";
 	import { flip } from "svelte/animate";
 	import type { Fields, Item } from "../types";
 	import AddItem from "./add-item.svelte";
-	import styles from "./admin.module.scss";
 
 	type Props = { data: { items: Item[] }; fields: Fields; title?: string };
 
@@ -42,11 +41,11 @@
 	};
 </script>
 
-<section class={styles.section}>
-	<div class={styles.container}>
+<section>
+	<div class="container">
 		<div>
 			{#if title}
-				<h1 class={styles.h1}>{title}</h1>
+				<h1>{title}</h1>
 			{/if}
 			<Button onclick={handleOpen(null)}>Añadir</Button>
 		</div>
@@ -87,3 +86,7 @@
 		item={editing !== null ? data.items[editing] : undefined}
 	/>
 </Modal>
+
+<style>
+	@import "./admin.scss";
+</style>

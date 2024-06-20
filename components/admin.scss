@@ -1,0 +1,44 @@
+section {
+	padding: 3.2rem;
+}
+
+h1 {
+	margin-bottom: 1.5rem;
+}
+
+.container {
+	display: flex;
+	flex-direction: column;
+	gap: 1.6rem;
+}
+
+tr {
+	@extend %background;
+
+	&:has(button:active) {
+		&::before {
+			background: none;
+		}
+	}
+
+	&:has(button:hover) {
+		&::before {
+			background: none;
+		}
+	}
+}
+
+th {
+	text-transform: uppercase;
+	font-size: 1.2rem;
+	padding: 1.6rem;
+	text-align: start;
+}
+
+td {
+	padding: 1.6rem;
+}
+
+td:first-child {
+	width: 0;
+}
