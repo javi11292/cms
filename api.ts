@@ -2,8 +2,7 @@
 
 import { prisma } from "$lib/core/utils/server";
 import type { Prisma } from "@prisma/client";
-import type { Action, RequestHandler } from "@sveltejs/kit";
-import { json } from "@sveltejs/kit";
+import type { Action } from "@sveltejs/kit";
 import type { Item } from "./types";
 
 type Model = Uncapitalize<Prisma.ModelName>;
@@ -12,12 +11,6 @@ export const setupLoad =
 	<T = Item>(table: Model) =>
 	async ({ platform }: { platform: App.Platform | undefined }) => {
 		return { items: (await (prisma(platform)[table] as any).findMany()) as T[] };
-	};
-
-export const setupGET =
-	(table: Model) =>
-	async ({ platform }: Parameters<RequestHandler>["0"]) => {
-		return json(await (prisma(platform)[table] as any).findMany());
 	};
 
 export const setupActions = (table: Model) => ({
