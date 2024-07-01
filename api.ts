@@ -15,10 +15,7 @@ export const setupLoad =
 
 export const setupActions = (table: Model) => ({
 	post: async ({ platform, request }: Parameters<Action>["0"]) => {
-		const { id, ...data } = Object.fromEntries(await request.formData()) as Record<
-			string,
-			string | undefined
-		>;
+		const { id, ...data } = Object.fromEntries(await request.formData()) as Record<string, string>;
 
 		if (id) {
 			const numberId = parseInt(id);
