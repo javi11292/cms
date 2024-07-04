@@ -14,18 +14,6 @@ h1 {
 
 tr {
 	@extend %background;
-
-	&:has(button:active) {
-		&::before {
-			background: none;
-		}
-	}
-
-	&:has(button:hover) {
-		&::before {
-			background: none;
-		}
-	}
 }
 
 th {
