@@ -1,7 +1,6 @@
 <script lang="ts">
 	import { invalidateAll } from "$app/navigation";
 	import { Button } from "$lib/core/components/button";
-	import { icons } from "$lib/core/components/icon";
 	import { Modal } from "$lib/core/components/modal";
 	import { upload } from "$lib/core/utils";
 	import { flip } from "svelte/animate";
@@ -65,7 +64,7 @@
 				<tbody>
 					{#each data.items as entry, index (entry.id)}
 						<tr animate:flip={{ duration: 200 }} onclick={handleOpen(index)}>
-							<td><Button icon={icons.delete} text onclick={handleDelete(entry.id)} /></td>
+							<td><Button icon="delete" text onclick={handleDelete(entry.id)} /></td>
 							{#each columns as column}
 								<td>{entry[column]}</td>
 							{/each}
